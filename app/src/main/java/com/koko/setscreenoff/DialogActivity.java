@@ -1,14 +1,14 @@
 package com.koko.setscreenoff;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-public class DialogActivity extends Activity {
+public class DialogActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new Permission().check(this, this);
         new Dialog().showDialog(this);
     }
+
 }
