@@ -3,8 +3,9 @@ package com.koko.setscreenoff;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
-import android.widget.TabHost;
 import android.widget.Toast;
+
+import java.util.List;
 
 import eu.chainfire.libsuperuser.Shell;
 
@@ -15,17 +16,52 @@ public class Dialog {
 
     public void showDialog(final Context context)
     {
+        List<String> getCurrentTime = Shell.SU.run("settings get system screen_off_timeout");
+        int getCurrentPositionTime = getScreenTimeOff(new Integer(getCurrentTime.get(0)));
         new AlertDialog.Builder(context)
-                .setSingleChoiceItems(R.array.dialog, 0, null)
-                .setPositiveButton(R.string.ok_button_label, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.dismiss();
-                        int selectedPosition = ((AlertDialog)dialog).getListView().getCheckedItemPosition();
-                        // Do something useful withe the position of the selected radio button
+                .setSingleChoiceItems(R.array.dialog, getCurrentPositionTime, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                         setScreenTimeOff(context, selectedPosition);
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton(R.string.cancel_button_label, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
                     }
                 })
                 .show();
+    }
+
+    protected int getScreenTimeOff(int time) {
+        int position = 0;
+        switch (time) {
+            case 15000:
+                position = 0;
+                break;
+            case 30000:
+                position = 1;
+                break;
+            case 60000:
+                position = 2;
+                break;
+            case 120000:
+                position = 3;
+                break;
+            case 300000:
+                position = 4;
+                break;
+            case 600000:
+                position = 5;
+                break;
+            case 1800000:
+                position = 6;
+                break;
+        }
+        return position;
     }
 
     protected void setScreenTimeOff(Context context, int selectedPosition) {

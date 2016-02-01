@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mLayout = findViewById(R.id.activity_main);
         if(checkRoot()) {
-            start();
         } else {
             Toast.makeText(this, "Can't root", Toast.LENGTH_LONG).show();
         }

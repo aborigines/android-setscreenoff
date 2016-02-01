@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">SetScreenOff</string>
     <string name="ok_button_label">Ok</string>
+    <string name="cancel_button_label">Cancel</string>
     <string name="appwidget_text">SetScreenOff</string>
     <string name="add_widget">Add widget</string>
 </resources>
